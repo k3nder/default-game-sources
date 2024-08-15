@@ -1,6 +1,6 @@
 package net.k3nder.defaults.objects;
 
-import net.k3nder.gl.DefaultRes;
+import net.k3nder.defaults.DefaultRes;
 import net.k3nder.gl.graphic.GraphicalObject;
 import net.k3nder.gl.graphic.model.ModelLoader;
 import net.k3nder.gl.graphic.model.Polygon;

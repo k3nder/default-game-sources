@@ -1,6 +1,6 @@
 package net.k3nder.defaults.objects.ui;
 
-import net.k3nder.gl.DefaultRes;
+import net.k3nder.defaults.DefaultRes;
 import net.k3nder.gl.graphic.shader.Shader;
 import net.k3nder.gl.graphic.text.Font;
 import net.k3nder.gl.graphic.text.Glyph;
