@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<groupId>io.github.k3nder</groupId>
+<artifactId>lwjgl-util-lib</artifactId>
+<version>1.0</version>
+<description>lwjgl/gl utils</description>
+<name>io.github.k3nder</name>
+        <!--  FIXME change it to the project's website  -->
+<url>http://github.com/k3nder/lwjgl-util-lib</url>
+<licenses>
+<license>
+    <name>Apache License, Version 2.0</name>
+    <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    <distribution>repo</distribution>
+</license>
+</licenses>
+<developers>
+<developer>
+    <name>kristian</name>
+    <email>k3nder@outlook.es</email>
+    <organization>kender</organization>
+</developer>
+</developers>
+<distributionManagement>
+<snapshotRepository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+</snapshotRepository>
+<repository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+</repository>
+</distributionManagement>
+<scm>
+<connection>scm:git:git://github.com/k3nder/lwjgl-util-lib.git</connection>
+<developerConnection>scm:git:ssh://github.com:k3nder/lwjgl-util-lib.git</developerConnection>
+<url>https://github.com/$github/tree/main</url>
+</scm>
+<properties>
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+        </project>

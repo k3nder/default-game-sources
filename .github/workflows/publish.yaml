@@ -1,0 +1,63 @@
+name: Check code
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      version: 1.0
+      artifact: lwjgl-util-lib
+      prerelease: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup java
+        uses: actions/setup-java@v4.0.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Gradle install
+        run: ./gradlew
+
+      - name: Gradle clean
+        run: ./gradlew clean
+
+      - name: Build
+        run: ./gradlew test
+
+      - name: build
+        run: ./gradlew build
+
+      - name: publish on sonatype
+        run: ./gradlew sonatypeCentralUpload
+        env:
+          SINGING_KEY: ${{ secrets.SINGING_KEY }}
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+          SINGING_PASSWORD: ${{ secrets.SINGING_PASSWORD }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+
+      - name: get version data
+        run: |
+          version=$(./gradlew properties | grep 'version:' | awk '{print $2}')
+          prerelease=false
+          #prerelease_mark=beta
+          #if [[ $version == *$prerelease_mark* ]]; then
+          #  prerelease=true
+          #echo "version=$version" >> $GITHUB_ENV
+          echo "prerelease=$prerelease" >> $GITHUB_ENV
+
+      - name: Push github release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/libs/*
+          tag_name: ${{ env.version }}
+          name: ${{ env.artifact }}-${{ env.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
