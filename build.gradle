@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.k3nder'
-version = '1.0'
+version = '1.0.1'
 
 
 def lwjglVersion = "3.3.4"

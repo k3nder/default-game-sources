@@ -1,7 +1,7 @@
 package net.k3nder.defaults.objects.ui;
 
 import net.k3nder.gl.DefaultRes;
-import net.k3nder.gl.graphic.objects.Cube;
+import net.k3nder.defaults.objects.Cube;
 import net.k3nder.gl.graphic.shader.Shader;
 import net.k3nder.gl.graphic.visual.Texture;
 import org.joml.Vector3f;

@@ -2,7 +2,7 @@
 <modelVersion>4.0.0</modelVersion>
 <groupId>io.github.k3nder</groupId>
 <artifactId>lwjgl-util-lib</artifactId>
-<version>1.0</version>
+<version>1.0.1</version>
 <description>lwjgl/gl utils</description>
 <name>io.github.k3nder</name>
         <!--  FIXME change it to the project's website  -->
