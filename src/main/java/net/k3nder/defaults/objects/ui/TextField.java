@@ -7,76 +7,109 @@ import net.k3nder.gl.graphic.text.Glyph;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class TextField extends Text {
-    private boolean selected = false;
-    private Long window;
-    private int cursorPos = 0;
-    private Shader selectedShader;
-    public TextField(Vector3f pos, Vector3f size, String placeText, Font font, long winID) {
-        super(font, placeText, pos, size);
-        window = winID;
-    }
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-    public boolean isSelected() {
-        return selected;
-    }
-    @Override
-    public void load() {
-        super.load();
-        selectedShader = DefaultRes.getShader("static_selected");
-    }
-    double lastPressTime = 0;
-    double delayTime = 0.12;
-    @Override
-    public void render(Shader shader) {
-
-        if (selected && (lastPressTime < (glfwGetTime() - delayTime))) {
-            if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-                cursorPos++;
-                lastPressTime = glfwGetTime();
-            } else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-                cursorPos--;
-                lastPressTime = glfwGetTime();
-            }
-
-        }
-
-        staticShader.use();
-        staticShader.setMatrix(model, "model");
-
-        float ip = 0;
-        int charIndex = 0;
-        for (char c : text.toCharArray()) {
-            if (cursorPos == charIndex) {
-                 selectedShader.use();
-                selectedShader.setMatrix(model, "model");
-                System.out.println("sss: " + c);
-            }
-            Vector2f pos = new Vector2f(position.x + ip, position.y);
-            Glyph glyph = new Glyph(font, c, pos);
-            glyph.setModel(new Matrix4f().translate(pos.x, pos.y, 0).scale(new Vector3f(size.x, size.y + (charIndex == cursorPos ? 1 : 0), 0.0f)));
-            glyph.load();
-            glyph.render((charIndex == cursorPos ? selectedShader : staticShader));
-            if (cursorPos == charIndex) {
-                staticShader.use();
-                staticShader.setMatrix(model, "model");
-            }
-            ip += size.x + size.z;
-            charIndex++;
-        }
+    protected TextField(Font loader, String text, Vector2f pos, Vector3f size, Background background, List<Colored> color) {
+        super(loader, text, pos, size, background, color);
     }
     public void addChar(char c) {
         text += c;
     }
+    public void rmChar(int index) {
+        this.text = new StringBuilder(this.text).deleteCharAt(index).toString();
+    }
+    public void rmLastChar() {
+        if (this.text.isEmpty()) return;
+        rmChar(this.text.length() - 1);
+    }
     public String getText() {
         return text;
     }
-    public void setText(String text) {
-        this.text = text;
+
+    public static class Builder {
+        private String text = "";
+        private Font font;
+        private Vector2f position;
+        private Vector3f size;
+        private List<Colored> color;
+        private Background background;
+
+        public Builder() {
+            color = new ArrayList<>();
+            this.text = "";
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public Font getFont() {
+            return font;
+        }
+
+        public Builder font(Font font) {
+            this.font = font;
+            return this;
+        }
+
+        public Vector2f getPosition() {
+            return position;
+        }
+
+        public Builder position(Vector2f position) {
+            this.position = position;
+            return this;
+        }
+
+        public Vector3f getSize() {
+            return size;
+        }
+
+        public Builder size(Vector3f size) {
+            this.size = size;
+            return this;
+        }
+
+        public List<Colored> getColor() {
+            return color;
+        }
+
+        public Builder color(Vector4f color, int of, int to) {
+            this.color.add(new Colored(color, of, to));
+            return this;
+        }
+
+        public Builder color(Vector4f color) {
+            this.color.add(new Colored(color, 0, text.length()-1));
+            return this;
+        }
+
+
+        public Background getBackground() {
+            return background;
+        }
+
+        public Builder background(Vector4f color) {
+            this.background = new Background(color, new Vector2f(position.x,position.y-0.02f), new Vector2f(10000, size.y));
+            return this;
+        }
+
+        public TextField build() {
+            return new TextField(this.font, this.text, this.position, this.size, this.background, this.color);
+        }
+    }
+    public static Builder builder() {
+        return new Builder();
     }
 }

@@ -11,7 +11,7 @@ public class Button extends StaticCube {
     public Button(Vector3f pos, Vector2f size, Texture tex, String text, Font font) {
         super(pos, tex);
         model.scale(new Vector3f(size.x, size.y, 0f));
-        this.text = new Text(font, text, pos, new Vector3f(.045f, .045f, 0.0002f));
+        //this.text = new Text(font, text, pos, new Vector3f(.045f, .045f, 0.0002f));
         load();
     }
     @Override
